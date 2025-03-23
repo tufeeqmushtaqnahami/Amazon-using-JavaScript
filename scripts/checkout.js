@@ -5,18 +5,18 @@ import { formatCurrency } from "./utils/money.js";
 let cartSummaryHMTL = '';
 
 
-cart.forEach((cartItem)=>{
-    const productId = cartItem.productId;
+cart.forEach((cartItem) => {
+  const productId = cartItem.productId;
 
-    let matchingProduct;
+  let matchingProduct;
 
-    products.forEach((product)=>{
- if(product.id === productId){
-    matchingProduct = product;
- }
-    });
-cartSummaryHMTL +=`
-  <div class="cart-item-container">
+  products.forEach((product) => {
+    if (product.id === productId) {
+      matchingProduct = product;
+    }
+  });
+  cartSummaryHMTL += `
+  <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
             <div class="delivery-date">
               Delivery date: Tuesday, June 21
             </div>
@@ -100,13 +100,21 @@ document.querySelector('.js-order-summary').innerHTML = cartSummaryHMTL;
 
 
 document.querySelectorAll('.js-delete-link').
-forEach((link)=>{
-link.addEventListener('click',()=>{
-const productId = link.dataset.productId ;
-removeFromCart(productId);
+  forEach((link) => {
+    link.addEventListener('click', () => {
+      const productId = link.dataset.productId;
+      removeFromCart(productId);
 
-});
-});
+
+
+      const container = document.querySelector(
+        `.js-cart-item-container-${productId}`
+      );
+      container.remove();
+    });
+
+    
+  });
 
 
 
